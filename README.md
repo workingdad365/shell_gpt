@@ -1,3 +1,14 @@
+# 수정 사항
+gpt-5 이상 모델 사용시 temperature 패러미터 관련 오류 수정
+
+## 설치 방법
+```
+git clone git@github.com:workingdad365/shell_gpt.git
+cd shell_gpt
+uv tool install -e .
+```
+---
+
 # ShellGPT
 A command-line productivity tool powered by AI large language models (LLM). This command-line tool offers streamlined generation of **shell commands, code snippets, documentation**, eliminating the need for external resources (like Google search). Supports Linux, macOS, Windows and compatible with all major Shells like PowerShell, CMD, Bash, Zsh, etc.
 

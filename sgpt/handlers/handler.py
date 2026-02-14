@@ -115,14 +115,24 @@ class Handler:
             additional_kwargs["tools"] = functions
             additional_kwargs["parallel_tool_calls"] = False
 
-        response = completion(
-            model=model,
-            temperature=temperature,
-            top_p=top_p,
-            messages=messages,
-            stream=True,
+        # o1, o3, gpt-5 시리즈 모델들은 temperature 파라미터 제한이 있음
+        # 이런 모델들은 temperature를 전달하지 않음
+        models_without_temp = ["o1-", "o3-", "gpt-5-"]
+        use_temperature = not any(prefix in model for prefix in models_without_temp)
+
+        completion_kwargs = {
+            "model": model,
+            "messages": messages,
+            "stream": True,
             **additional_kwargs,
-        )
+        }
+
+        # temperature와 top_p는 지원하는 모델에만 전달
+        if use_temperature:
+            completion_kwargs["temperature"] = temperature
+            completion_kwargs["top_p"] = top_p
+
+        response = completion(**completion_kwargs)
 
         try:
             for chunk in response:
